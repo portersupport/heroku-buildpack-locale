@@ -1,0 +1,13 @@
+api = "0.4"
+
+[buildpack]
+id = "portersupport/heroku-buildpack-locale"
+version = "0.1"
+name = "buildpack locale"
+homepage = "https://github.com/portersupport/heroku-buildpack-locale"
+
+[[stacks]]
+id = "heroku-18"
+
+[[stacks]]
+id = "heroku-20"
