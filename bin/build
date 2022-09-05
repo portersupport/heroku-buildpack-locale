@@ -46,8 +46,8 @@ for lang in $langs; do
   package=language-pack-$language-base
 
   puts_step "Updating or installing $package"
-  apt-get update
-  apt-get -y -d install --reinstall $package
+  apt-get $APT_OPTIONS update
+  apt-get $APT_OPTIONS -y -d install --reinstall $package
 
   cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
 localedef -f $encoding -i $pack /app/.heroku/locales/usr/share/locale-langpack/$language/
