@@ -36,7 +36,7 @@ getEncoding () {
   echo $encoding
 }
 
-langs=`cat $LAYERS_DIR/.locales`
+langs=`cat .locales`
 if [ ${#langs[@]} == 0 ]; then
   puts_warn "No lang values found. Nothing to do."
   exit 0
