@@ -7,13 +7,14 @@ echo "---> locale buildpack"
 
 # GET ARGS
 LAYERS_DIR="$1"
+CACHE_DIR=$2
 
 # locale layer
 LOCALE_LAYER="${LAYERS_DIR}/locale"
 mkdir -p $LOCALE_LAYER
 
-APT_CACHE_DIR="$LAYERS_DIR/cache"
-APT_STATE_DIR="$LAYERS_DIR/state"
+APT_CACHE_DIR="$CACHE_DIR/apt/cache"
+APT_STATE_DIR="$CACHE_DIR/apt/state"
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 
 echo LOCALE_LAYER=$LOCALE_LAYER
@@ -56,7 +57,7 @@ for lang in $langs; do
   echo "Updating or installing $package for $lang"
   apt-get $APT_OPTIONS update
   apt-get $APT_OPTIONS -y -d install --reinstall $package
-
+  echo $encoding $pack
   cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
 localedef -f $encoding -i $pack /usr/share/locale-langpack/$language/
 EOF
