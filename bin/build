@@ -52,15 +52,15 @@ for lang in $langs; do
   apt-get $APT_OPTIONS -y -d install --reinstall $package
 
   cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
-localedef -f $encoding -i $pack /app/.heroku/locales/usr/share/locale-langpack/$language/
+localedef -f $encoding -i $pack /usr/share/locale-langpack/$language/
 EOF
 done
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-  dpkg -x $DEB $LOCALE_LAYER/.heroku/locales/
+  dpkg -x $DEB $LOCALE_LAYER
 done
 
 cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
-export I18NPATH=/app/.heroku/locales/var/lib/locales/supported.d
-export LOCPATH=/app/.heroku/locales/usr/share/locale-langpack/
+export I18NPATH=/var/lib/locales/supported.d
+export LOCPATH=/usr/share/locale-langpack/
 EOF
