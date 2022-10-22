@@ -58,7 +58,7 @@ localedef -f $encoding -i $pack /usr/share/locale-langpack/$language/
 EOF
 done
 
-puts_step "Unpacking and configuring all locales"
+echo "Unpacking and configuring all locales"
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
   dpkg -x $DEB $LOCALE_LAYER
 done
