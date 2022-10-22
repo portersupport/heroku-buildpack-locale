@@ -23,6 +23,7 @@ mkdir -p $LOCALE_LAYER/.profile.d
 mkdir -p $LOCALE_LAYER/.heroku/locales
 mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
+mkdir -p "/app/locale-langpack"
 
 getEncoding () {
   encoding=`echo $1 | cut -d'.' -f2`
