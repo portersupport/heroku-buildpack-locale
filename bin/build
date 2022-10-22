@@ -74,6 +74,6 @@ export LOCPATH=$LOCALE_LAYER/locale-langpack/
 EOF
 
 # Set the layer to be included in the final image
-echo "launch = true" > $LOCALE_LAYER.toml
-echo "build = true" >> $LOCALE_LAYER.toml
-echo "cache = true" >> $LOCALE_LAYER.toml
+# echo "launch = true" > $LOCALE_LAYER.toml
+# echo "build = true" >> $LOCALE_LAYER.toml
+# echo "cache = true" >> $LOCALE_LAYER.toml
