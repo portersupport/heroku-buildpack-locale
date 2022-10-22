@@ -10,12 +10,14 @@ LAYERS_DIR="$1"
 
 # locale layer
 LOCALE_LAYER="${LAYERS_DIR}/locale"
-echo LOCALE_LAYER=$LOCALE_LAYER
 mkdir -p $LOCALE_LAYER
 
 APT_CACHE_DIR="$LAYERS_DIR/cache"
 APT_STATE_DIR="$LAYERS_DIR/state"
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
+
+echo LOCALE_LAYER=$LOCALE_LAYER
+echo APT_CACHE_DIR=$APT_CACHE_DIR
 
 mkdir -p $LOCALE_LAYER/.profile.d
 mkdir -p $LOCALE_LAYER/.heroku/locales
