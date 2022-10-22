@@ -57,7 +57,7 @@ EOF
 done
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-  dpkg -x $DEB $LOCALE_LAYER
+  dpkg -x $DEB $LOCALE_LAYER/.heroku/locales
 done
 
 cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
