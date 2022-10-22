@@ -23,7 +23,7 @@ mkdir -p $LOCALE_LAYER/.profile.d
 mkdir -p $LOCALE_LAYER/.heroku/locales
 mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
-mkdir -p "/app/locale-langpack"
+mkdir -p "$LOCALE_LAYER/locale-langpack"
 
 getEncoding () {
   encoding=`echo $1 | cut -d'.' -f2`
@@ -59,10 +59,8 @@ for lang in $langs; do
   apt-get $APT_OPTIONS -y -d install --reinstall $package
   echo $encoding $pack
   cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
-localedef -f $encoding -i $pack /app/locale-langpack/$language/
+localedef -f $encoding -i $pack $LOCALE_LAYER/locale-langpack/$language/
 EOF
-echo "CURRENT LOCALE"
-ls /usr/share/locale-langpack
 done
 
 echo "Unpacking and configuring all locales"
@@ -72,5 +70,9 @@ done
 
 cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
 export I18NPATH=/var/lib/locales/supported.d
-export LOCPATH=/app/locale-langpack/
+export LOCPATH=$LOCALE_LAYER/locale-langpack/
 EOF
+
+# Set the layer to be included in the final image
+echo "launch = true" > $LOCALE_LAYER.toml
+echo "build = true" >> $LOCALE_LAYER.toml
