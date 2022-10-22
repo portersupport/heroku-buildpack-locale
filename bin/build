@@ -49,7 +49,7 @@ for lang in $langs; do
   encoding=$(getEncoding $lang)
   package=language-pack-$language-base
 
-  puts_step "Updating or installing $package"
+  echo "Updating or installing $package"
   apt-get $APT_OPTIONS update
   apt-get $APT_OPTIONS -y -d install --reinstall $package
 
