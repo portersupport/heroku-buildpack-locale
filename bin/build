@@ -56,6 +56,8 @@ for lang in $langs; do
   cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
 localedef -f $encoding -i $pack /usr/share/locale-langpack/$language/
 EOF
+echo "CURRENT LOCALE"
+ls /usr/share/locale-langpack
 done
 
 echo "Unpacking and configuring all locales"
