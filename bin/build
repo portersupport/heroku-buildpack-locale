@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/buildpack-stdlib/v8/stdlib.sh)"
+
 echo "---> locale buildpack"
 
 # GET ARGS
