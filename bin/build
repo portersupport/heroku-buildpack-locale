@@ -8,6 +8,7 @@ LAYERS_DIR="$1"
 
 # locale layer
 LOCALE_LAYER="${LAYERS_DIR}/locale"
+echo LOCALE_LAYER=$LOCALE_LAYER
 mkdir -p $LOCALE_LAYER
 
 APT_CACHE_DIR="$LAYERS_DIR/cache"
@@ -48,6 +49,7 @@ for lang in $langs; do
   encoding=$(getEncoding $lang)
   package=language-pack-$language-base
 
+  puts_step "Updating or installing $package"
   apt-get $APT_OPTIONS update
   apt-get $APT_OPTIONS -y -d install --reinstall $package
 
@@ -56,8 +58,9 @@ localedef -f $encoding -i $pack /usr/share/locale-langpack/$language/
 EOF
 done
 
+puts_step "Unpacking and configuring all locales"
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-  dpkg -x $DEB $LOCALE_LAYER/.heroku/locales
+  dpkg -x $DEB $LOCALE_LAYER
 done
 
 cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
