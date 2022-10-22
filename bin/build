@@ -59,7 +59,7 @@ for lang in $langs; do
   apt-get $APT_OPTIONS -y -d install --reinstall $package
   echo $encoding $pack
   cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
-localedef -f $encoding -i $pack /usr/share/locale-langpack/$language/
+localedef -f $encoding -i $pack /app/locale-langpack/$language/
 EOF
 echo "CURRENT LOCALE"
 ls /usr/share/locale-langpack
@@ -72,5 +72,5 @@ done
 
 cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
 export I18NPATH=/var/lib/locales/supported.d
-export LOCPATH=/usr/share/locale-langpack/
+export LOCPATH=/app/locale-langpack/
 EOF
