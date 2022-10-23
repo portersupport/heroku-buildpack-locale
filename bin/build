@@ -1,29 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/buildpack-stdlib/v8/stdlib.sh)"
-
 echo "---> locale buildpack"
-
-# GET ARGS
-LAYERS_DIR="$1"
-
-# locale layer
-LOCALE_LAYER="${LAYERS_DIR}/locale"
-mkdir -p $LOCALE_LAYER
-
-APT_CACHE_DIR="$LOCALE_LAYER/apt/cache"
-APT_STATE_DIR="$LOCALE_LAYER/apt/state"
-APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
-
-echo LOCALE_LAYER=$LOCALE_LAYER
-echo APT_CACHE_DIR=$APT_CACHE_DIR
-
-mkdir -p $LOCALE_LAYER/.profile.d
-mkdir -p $LOCALE_LAYER/.heroku/locales
-mkdir -p "$APT_CACHE_DIR/archives/partial"
-mkdir -p "$APT_STATE_DIR/lists/partial"
-mkdir -p "/workspace/locale-langpack"
 
 getEncoding () {
   encoding=`echo $1 | cut -d'.' -f2`
@@ -52,23 +30,7 @@ for lang in $langs; do
   language=`echo $lang | cut -d'_' -f1`
   pack=`echo $lang | cut -d'.' -f1`
   encoding=$(getEncoding $lang)
-  package=language-pack-$language-base
 
   echo "Updating or installing $package for $lang"
-  apt-get $APT_OPTIONS update
-  apt-get $APT_OPTIONS -y -d install --reinstall $package
-  echo $encoding $pack
-  cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
-localedef -f $encoding -i $pack /workspace/locale-langpack/$language/
-EOF
+  localedef -f $encoding -i $pack /layers/fagiani_apt/apt/usr/share/locale-langpack/$language/
 done
-
-echo "Unpacking and configuring all locales"
-for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-  dpkg -x $DEB $LOCALE_LAYER
-done
-
-cat <<EOF >> $LOCALE_LAYER/.profile.d/000_locale.sh
-export I18NPATH=/var/lib/locales/supported.d
-export LOCPATH=$LOCALE_LAYER/locale-langpack/
-EOF
